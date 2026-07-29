@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!D<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -25,67 +25,52 @@
   }
   * { box-sizing: border-box; }
   
-  /* 세련된 커스텀 스크롤바 설정 */
-  *::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  *::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 3px;
-  }
-  *::-webkit-scrollbar-thumb {
-    background: var(--border-strong);
-    border-radius: 3px;
-  }
-  *::-webkit-scrollbar-thumb:hover {
-    background: var(--text-dim);
-  }
+  *::-webkit-scrollbar { width: 6px; height: 6px; }
+  *::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.1); border-radius: 3px; }
+  *::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+  *::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
 
   html, body {
     margin: 0;
     padding: 0;
-    height: 100vh;
     background: var(--bg);
     color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Malgun Gothic", sans-serif;
-    overflow: hidden;
   }
 
   .wrap {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 8px 12px;
-    gap: 6px;
-    overflow: hidden;
+    padding: 10px;
+    gap: 8px;
   }
 
-  /* Header */
   header {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid var(--border);
-    padding-bottom: 6px;
+    padding-bottom: 8px;
+    gap: 8px;
     flex-shrink: 0;
   }
   .title-area { display: flex; align-items: baseline; gap: 8px; }
-  h1 { font-size: 16px; font-weight: 700; margin: 0; color: var(--text-bright); letter-spacing: -0.3px; }
-  .sub { color: var(--text-dim); font-size: 11px; margin: 0; }
+  h1 { font-size: 15px; font-weight: 700; margin: 0; color: var(--text-bright); letter-spacing: -0.3px; }
+  .sub { color: var(--text-dim); font-size: 10.5px; margin: 0; }
 
-  /* Mode & View Tabs */
-  .mode-tabs { display: flex; gap: 5px; }
+  .mode-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
   .mode-tab {
-    padding: 4px 10px;
+    padding: 4px 8px;
     border-radius: 5px;
     border: 1px solid var(--border);
     background: var(--panel);
     color: var(--text-dim);
     font-weight: 600;
-    font-size: 11.5px;
+    font-size: 11px;
     cursor: pointer;
     transition: all .2s;
   }
@@ -95,27 +80,30 @@
   .mode-tab.active[data-mode="equipGuide"] { color: var(--gold); border-color: var(--gold-dim); background: rgba(241, 224, 90, 0.15); }
   .mode-tab.active[data-mode="potentialGuide"] { color: var(--chaos); border-color: var(--chaos); background: rgba(188, 140, 255, 0.15); }
 
-  .panel { display: none; height: 100%; flex: 1; min-height: 0; }
-  .panel.active { display: grid; grid-template-columns: 1fr 340px; gap: 10px; height: 100%; min-height: 0; }
+  .panel { display: none; flex-direction: column; gap: 10px; }
+  .panel.active { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  
+  @media(min-width: 1024px) {
+    html, body { height: 100vh; overflow: hidden; }
+    .wrap { height: 100vh; overflow: hidden; }
+    .panel.active { display: grid; grid-template-columns: 1fr 340px; height: calc(100vh - 65px); min-height: 0; }
+  }
 
-  /* 가이드 전용 패널 */
   .guide-panel {
     display: none;
-    height: 100%;
-    flex: 1;
-    min-height: 0;
     background: var(--panel);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 10px 12px;
+    padding: 10px;
     box-shadow: var(--shadow);
     flex-direction: column;
-    gap: 8px;
-    overflow: hidden;
+    gap: 10px;
   }
   .guide-panel.active { display: flex; }
+  @media(min-width: 1024px) {
+    .guide-panel.active { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 65px); overflow: hidden; }
+  }
 
-  /* Main Left Container (Table) */
   .left-col {
     display: flex;
     flex-direction: column;
@@ -123,9 +111,11 @@
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 10px;
-    min-height: 0;
     box-shadow: var(--shadow);
-    overflow: hidden;
+    min-height: 400px;
+  }
+  @media(min-width: 1024px) {
+    .left-col { height: 100%; min-height: 0; overflow: hidden; }
   }
 
   .table-container {
@@ -140,7 +130,7 @@
   thead th {
     position: sticky; top: 0; z-index: 2;
     background: var(--panel2);
-    text-align: center; color: var(--text-dim); font-weight: 600; font-size: 10.5px;
+    text-align: center; color: var(--text-dim); font-weight: 600; font-size: 10px;
     padding: 6px 3px; border-bottom: 1px solid var(--border); white-space: nowrap;
   }
   thead th.exp-col { color: var(--exp); }
@@ -148,11 +138,10 @@
   
   tbody tr { transition: background .15s; }
   tbody tr:hover { background: rgba(255,255,255,0.03); }
-  tbody td { padding: 4px 3px; text-align: center; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  tbody td { padding: 5px 4px; text-align: center; border-bottom: 1px solid var(--border); }
 
-  /* 가이드 전용 스타일 */
   .guide-section-title {
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 700;
     color: var(--text-bright);
     border-left: 3px solid var(--gold);
@@ -164,25 +153,24 @@
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 6px 8px;
+    padding: 6px;
     display: flex;
     flex-direction: column;
-    min-height: 0;
     overflow: hidden;
+    height: 300px;
   }
-  .guide-card-scroll {
-    flex: 1;
-    overflow-y: auto;
+  @media(min-width: 1024px) {
+    .guide-card { height: auto; flex: 1; min-height: 0; }
   }
+  .guide-card-scroll { flex: 1; overflow-y: auto; }
 
-  .guide-panel table { font-size: 11.5px; }
-  .guide-panel tbody td { padding: 4px 3px; }
-  .guide-panel thead th { padding: 6px 3px; font-size: 11px; }
+  .guide-panel table { font-size: 11px; }
+  .guide-panel tbody td { padding: 6px 4px; vertical-align: middle; }
+  .guide-panel thead th { padding: 7px 4px; font-size: 10.5px; }
 
-  .badge-wpn { color: #f85149; font-weight: 600; background: rgba(248,81,73,0.12); padding: 1px 5px; border-radius: 3px; font-size: 10.5px; }
-  .badge-arm { color: #58a6ff; font-weight: 600; background: rgba(88,166,255,0.12); padding: 1px 5px; border-radius: 3px; font-size: 10.5px; }
-  .badge-boss { color: #f1e05a; font-weight: 600; background: rgba(241,224,90,0.15); padding: 1px 5px; border-radius: 3px; font-size: 10.5px; }
-  .max-val { color: var(--text-dim); font-size: 10px; }
+  .badge-wpn { color: #f85149; font-weight: 600; background: rgba(248,81,73,0.12); padding: 1px 4px; border-radius: 3px; font-size: 10px; }
+  .badge-arm { color: #58a6ff; font-weight: 600; background: rgba(88,166,255,0.12); padding: 1px 4px; border-radius: 3px; font-size: 10px; }
+  .max-val { color: var(--text-dim); font-size: 9.5px; }
 
   .stage-input, .time-input, .base-input, .exp-input {
     width: 100%; min-width: 40px; background: var(--panel2); border: 1px solid var(--border);
@@ -197,16 +185,21 @@
   .del-btn { background: none; border: none; color: var(--text-dim); font-size: 12px; cursor: pointer; padding: 0 4px; border-radius: 3px; }
   .del-btn:hover { color: var(--danger); background: rgba(248,81,73,0.1); }
 
-  .table-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; flex-shrink: 0; }
+  .table-footer { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; flex-shrink: 0; }
+  @media(min-width: 600px) {
+    .table-footer { flex-direction: row; justify-content: space-between; align-items: center; }
+  }
   .add-btn {
     background: rgba(88,166,255,0.05); border: 1px dashed var(--border-strong);
-    color: var(--exp); border-radius: 5px; padding: 4px 12px; font-size: 11px; font-weight: 600; cursor: pointer;
+    color: var(--exp); border-radius: 5px; padding: 5px 12px; font-size: 11px; font-weight: 600; cursor: pointer; text-align: center;
   }
   .add-btn:hover { border-color: var(--exp); background: rgba(88,166,255,0.12); color: var(--text-bright); }
-  .formula { font-size: 10px; color: var(--text-dim); }
+  .formula { font-size: 9.5px; color: var(--text-dim); line-height: 1.3; }
 
-  /* Right Side Container */
-  .right-col { display: flex; flex-direction: column; gap: 8px; min-height: 0; overflow: hidden; }
+  .right-col { display: flex; flex-direction: column; gap: 8px; }
+  @media(min-width: 1024px) {
+    .right-col { height: 100%; min-height: 0; overflow: hidden; }
+  }
 
   .card {
     background: var(--panel);
@@ -218,10 +211,10 @@
   }
 
   .input-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-  .input-group { display: flex; flex-direction: column; gap: 2px; font-size: 10.5px; color: var(--text-dim); }
+  .input-group { display: flex; flex-direction: column; gap: 2px; font-size: 10px; color: var(--text-dim); }
   .input-group input {
     width: 100%; background: var(--panel2); border: 1px solid var(--border); border-radius: 5px;
-    color: var(--gold); font-size: 12px; font-weight: 700; padding: 4px; text-align: center;
+    color: var(--gold); font-size: 11.5px; font-weight: 700; padding: 4px; text-align: center;
   }
 
   .btnrow { display: flex; gap: 6px; margin-top: 6px; }
@@ -231,7 +224,7 @@
   }
   .btn:hover { border-color: var(--text-dim); color: var(--text-bright); background: #2d333b; }
   .btn.danger:hover { border-color: var(--danger); color: var(--danger); background: rgba(248,81,73,0.05); }
-  .save-note { font-size: 11px; color: var(--green); opacity: 0; transition: opacity .2s; font-weight: 500; text-align: center; margin-top: 2px; height: 14px; }
+  .save-note { font-size: 10.5px; color: var(--green); opacity: 0; transition: opacity .2s; font-weight: 500; text-align: center; margin-top: 2px; height: 14px; }
   .save-note.visible { opacity: 1; }
 
   .best-summary { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
@@ -241,93 +234,56 @@
   }
   .summary-card.exp { border-left: 3px solid var(--exp); }
   .summary-card.gold { border-left: 3px solid var(--gold); }
-  .summary-title { font-size: 10px; color: var(--text-dim); font-weight: 600; }
-  .summary-value { font-size: 11.5px; color: var(--text-bright); font-weight: 600; }
+  .summary-title { font-size: 9.5px; color: var(--text-dim); font-weight: 600; }
+  .summary-value { font-size: 11px; color: var(--text-bright); font-weight: 600; }
 
   .chart-card {
-    display: flex; flex-direction: column; flex: 1; min-height: 0; background: var(--panel);
+    display: flex; flex-direction: column; background: var(--panel);
     border: 1px solid var(--border); border-radius: 10px; padding: 10px; box-shadow: var(--shadow);
-    overflow: hidden;
+    height: 250px;
+  }
+  @media(min-width: 1024px) {
+    .chart-card { flex: 1; min-height: 0; height: auto; overflow: hidden; }
   }
   .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-shrink: 0; }
-  .card-header-flex h2 { font-size: 12.5px; font-weight: 600; margin: 0; color: var(--text-bright); }
+  .card-header-flex h2 { font-size: 12px; font-weight: 600; margin: 0; color: var(--text-bright); }
   
   .rank-toggle { display: flex; gap: 2px; background: var(--panel2); padding: 2px; border-radius: 5px; border: 1px solid var(--border); }
-  .rank-tab { padding: 3px 8px; font-size: 10px; border-radius: 4px; cursor: pointer; color: var(--text-dim); font-weight: 600; }
+  .rank-tab { padding: 3px 7px; font-size: 9.5px; border-radius: 4px; cursor: pointer; color: var(--text-dim); font-weight: 600; }
   .rank-tab.active.exp-rank { background: var(--exp-dim); color: #fff; }
   .rank-tab.active.gold-rank { background: var(--gold-dim); color: #fff; }
 
-  /* 효율 순위 그래프 스타일 (순위와 스테이지 확실히 구분) */
   .chart-scroll { flex: 1; overflow-y: auto; padding-right: 2px; }
   .chart-row { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
-  .chart-rank { 
-    width: 22px; 
-    font-size: 12px; 
-    color: var(--text-bright); 
-    text-align: right; 
-    font-weight: 700; 
-  }
-  .chart-label { 
-    width: 48px; 
-    font-size: 10.5px; 
-    color: var(--text-bright); 
-    font-weight: 700; 
-    background: var(--panel2); 
-    border: 1px solid var(--border); 
-    border-radius: 4px; 
-    text-align: center; 
-    padding: 2px 0;
-  }
-  .chart-bar-bg { 
-    flex: 1; 
-    background: var(--panel2); 
-    border-radius: 4px; 
-    height: 18px; 
-    position: relative; 
-    overflow: hidden; 
-  }
-  .chart-bar-fill { 
-    height: 100%; 
-    border-radius: 4px; 
-    transition: width .3s; 
-  }
+  .chart-rank { width: 20px; font-size: 11.5px; color: var(--text-bright); text-align: right; font-weight: 700; }
+  .chart-label { width: 44px; font-size: 10px; color: var(--text-bright); font-weight: 700; background: var(--panel2); border: 1px solid var(--border); border-radius: 4px; text-align: center; padding: 2px 0; }
+  .chart-bar-bg { flex: 1; background: var(--panel2); border-radius: 4px; height: 18px; position: relative; overflow: hidden; }
+  .chart-bar-fill { height: 100%; border-radius: 4px; transition: width .3s; }
   .chart-bar-fill.exp-bar { background: linear-gradient(90deg, var(--exp-dim), var(--exp)); }
   .chart-bar-fill.gold-bar { background: linear-gradient(90deg, var(--gold-dim), var(--gold)); }
   
   .chart-val-inside {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding-left: 8px;
-    padding-right: 6px;
-    font-size: 10px;
-    font-weight: 600;
-    color: #fff;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-    pointer-events: none;
-    white-space: nowrap;
-    overflow: hidden;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; align-items: center; padding-left: 8px; padding-right: 6px;
+    font-size: 9.5px; font-weight: 600; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    pointer-events: none; white-space: nowrap; overflow: hidden;
   }
 
-  footer { text-align: center; padding-top: 2px; border-top: 1px solid var(--border); font-size: 10px; color: #484f58; flex-shrink: 0; }
+  footer { text-align: center; padding: 6px 0; border-top: 1px solid var(--border); font-size: 9.5px; color: #484f58; flex-shrink: 0; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div class="title-area">
-      <h1>울티마 효율 계산기& 가이드</h1>
-      <p class="sub">효율 계산 및 장비/잠재능력 종합 정보</p>
+      <h1>스테이지 계산기 & 가이드</h1>
+      <p class="sub">효율 계산 및 장비/잠재 정보</p>
     </div>
     <div class="mode-tabs">
-      <div class="mode-tab active" data-mode="normal" id="tabNormal">일반 모드</div>
-      <div class="mode-tab" data-mode="chaos" id="tabChaos">카오스 모드</div>
-      <div class="mode-tab" data-mode="equipGuide" id="tabEquipGuide">🛡️ 장비 가이드</div>
-      <div class="mode-tab" data-mode="potentialGuide" id="tabPotentialGuide">🔮 잠재 가이드</div>
+      <div class="mode-tab active" data-mode="normal" id="tabNormal">일반</div>
+      <div class="mode-tab" data-mode="chaos" id="tabChaos">카오스</div>
+      <div class="mode-tab" data-mode="equipGuide" id="tabEquipGuide">🛡️ 장비</div>
+      <div class="mode-tab" data-mode="potentialGuide" id="tabPotentialGuide">🔮 잠재</div>
     </div>
   </header>
 
@@ -335,182 +291,130 @@
   <div id="panelChaos" class="panel"></div>
 
   <div id="panelEquipGuide" class="guide-panel">
-    <div style="display:flex; flex-direction:column; flex:1; min-height:0;">
+    <div style="display:flex; flex-direction:column; flex:1; min-height:0; gap:6px;">
       <div class="guide-section-title">🛡️ 장비 단계별 기본 스탯 & 분해 골드</div>
-      <div class="guide-card" style="flex:1;">
+      <div class="guide-card">
         <div class="guide-card-scroll">
           <table>
             <thead>
               <tr>
-                <th style="width: 9%;">단계</th>
-                <th style="width: 17%;">무기 기본 공</th>
-                <th style="width: 17%;">방어구 HP</th>
-                <th style="width: 15%;">방어구 방어력</th>
-                <th style="width: 30%;">추옵 실측 확인 (무기 / 방어구)</th>
-                <th style="width: 12%;">분해 골드</th>
+                <th>단계</th>
+                <th>무기 공</th>
+                <th>방어구 HP</th>
+                <th>방어구 방어</th>
+                <th>추옵 실측 확인</th>
+                <th>분해 골드</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><strong>1단계</strong></td>
-                <td>+9 <span class="max-val">(+13)</span></td>
-                <td>+45 <span class="max-val">(+55)</span></td>
-                <td>+5 <span class="max-val">(+9)</span></td>
-                <td><span class="badge-wpn">무기</span> 공/마 +4 &nbsp;|&nbsp; <span class="badge-arm">방어구</span> HP +10, 방어 +4</td>
-                <td><strong style="color:var(--gold);">660 G</strong></td>
-              </tr>
-              <tr>
-                <td><strong>2단계</strong></td>
-                <td>+14 <span class="max-val">(+18)</span></td>
-                <td>+74 <span class="max-val">(+86)</span></td>
-                <td>+10 <span class="max-val">(+14)</span></td>
-                <td><span class="badge-wpn">무기</span> 공/마 +4 &nbsp;|&nbsp; <span class="badge-arm">방어구</span> HP +12, 방어 +4</td>
-                <td><strong style="color:var(--gold);">1,400 G</strong></td>
-              </tr>
-              <tr>
-                <td><strong>3단계</strong></td>
-                <td>+20 <span class="max-val">(+24)</span></td>
-                <td>+112 <span class="max-val">(+128)</span></td>
-                <td>+15 <span class="max-val">(+19)</span></td>
-                <td><span class="badge-wpn">무기</span> 공/마 +4 &nbsp;|&nbsp; <span class="badge-arm">방어구</span> HP +16, 방어 +4</td>
-                <td><strong style="color:var(--gold);">2,970 G</strong></td>
-              </tr>
-              <tr>
-                <td><strong>4단계</strong></td>
-                <td>+25 <span class="max-val">(+31)</span></td>
-                <td>+158 <span class="max-val">(+192)</span></td>
-                <td>+20 <span class="max-val">(+24)</span></td>
-                <td><span class="badge-wpn">무기</span> 공/마 +6 &nbsp;|&nbsp; <span class="badge-arm">방어구</span> HP +34, 방어 +4</td>
-                <td><strong style="color:var(--gold);">6,300 G</strong></td>
-              </tr>
-              <tr>
-                <td><strong>5단계</strong></td>
-                <td>+32 <span class="max-val">(+38)</span></td>
-                <td>+231 <span class="max-val">(+269)</span></td>
-                <td>+128 <span class="max-val">(+172)</span></td>
-                <td><span class="badge-wpn">무기</span> 공/마 +6 &nbsp;|&nbsp; <span class="badge-arm">방어구</span> HP +38, 방어 +4</td>
-                <td><strong style="color:var(--gold);">413,370 G</strong></td>
-              </tr>
-              <tr>
-                <td><strong>6단계</strong></td>
-                <td>+65 <span class="max-val">(+85)</span></td>
-                <td>+762 <span class="max-val">(+1038)</span></td>
-                <td>+268 <span class="max-val">(+303)</span></td>
-                <td><span class="badge-wpn">무기</span> 공/마 +20 &nbsp;|&nbsp; <span class="badge-arm">방어구</span> HP +276, 방어 +35</td>
-                <td><strong style="color:var(--gold);">60,140 G</strong></td>
-              </tr>
-              <tr>
-                <td><strong>7단계</strong></td>
-                <td>+111 <span class="max-val">(+139)</span></td>
-                <td>+1360 <span class="max-val">(+1840)</span></td>
-                <td>+362 <span class="max-val">(+398)</span></td>
-                <td><span class="badge-wpn">무기</span> 공/마 +28 &nbsp;|&nbsp; <span class="badge-arm">방어구</span> HP +480, 방어 +36</td>
-                <td><strong style="color:var(--gold);">270,640 G</strong></td>
-              </tr>
-              <tr>
-                <td><strong>8단계</strong></td>
-                <td>+165 <span class="max-val">(+205)</span></td>
-                <td>+2040 <span class="max-val">(+2760)</span></td>
-                <td>+407 <span class="max-val">(+443)</span></td>
-                <td><span class="badge-wpn">무기</span> 공/마 +40 &nbsp;|&nbsp; <span class="badge-arm">방어구</span> HP +720, 방어 +36</td>
-                <td><strong style="color:var(--gold);">1,217,890 G</strong></td>
-              </tr>
+              <tr><td><strong>1단계</strong></td><td>+9 <span class="max-val">(+13)</span></td><td>+45 <span class="max-val">(+55)</span></td><td>+5 <span class="max-val">(+9)</span></td><td><span class="badge-wpn">무기</span> +4 | <span class="badge-arm">방어</span> HP+10</td><td><strong style="color:var(--gold);">660 G</strong></td></tr>
+              <tr><td><strong>2단계</strong></td><td>+14 <span class="max-val">(+18)</span></td><td>+74 <span class="max-val">(+86)</span></td><td>+10 <span class="max-val">(+14)</span></td><td><span class="badge-wpn">무기</span> +4 | <span class="badge-arm">방어</span> HP+12</td><td><strong style="color:var(--gold);">1,400 G</strong></td></tr>
+              <tr><td><strong>3단계</strong></td><td>+20 <span class="max-val">(+24)</span></td><td>+112 <span class="max-val">(+128)</span></td><td>+15 <span class="max-val">(+19)</span></td><td><span class="badge-wpn">무기</span> +4 | <span class="badge-arm">방어</span> HP+16</td><td><strong style="color:var(--gold);">2,970 G</strong></td></tr>
+              <tr><td><strong>4단계</strong></td><td>+25 <span class="max-val">(+31)</span></td><td>+158 <span class="max-val">(+192)</span></td><td>+20 <span class="max-val">(+24)</span></td><td><span class="badge-wpn">무기</span> +6 | <span class="badge-arm">방어</span> HP+34</td><td><strong style="color:var(--gold);">6,300 G</strong></td></tr>
+              <tr><td><strong>5단계</strong></td><td>+32 <span class="max-val">(+38)</span></td><td>+231 <span class="max-val">(+269)</span></td><td>+128 <span class="max-val">(+172)</span></td><td><span class="badge-wpn">무기</span> +6 | <span class="badge-arm">방어</span> HP+38</td><td><strong style="color:var(--gold);">413,370 G</strong></td></tr>
+              <tr><td><strong>6단계</strong></td><td>+65 <span class="max-val">(+85)</span></td><td>+762 <span class="max-val">(+1038)</span></td><td>+268 <span class="max-val">(+303)</span></td><td><span class="badge-wpn">무기</span> +20 | <span class="badge-arm">방어</span> HP+276</td><td><strong style="color:var(--gold);">60,140 G</strong></td></tr>
+              <tr><td><strong>7단계</strong></td><td>+111 <span class="max-val">(+139)</span></td><td>+1360 <span class="max-val">(+1840)</span></td><td>+362 <span class="max-val">(+398)</span></td><td><span class="badge-wpn">무기</span> +28 | <span class="badge-arm">방어</span> HP+480</td><td><strong style="color:var(--gold);">270,640 G</strong></td></tr>
+              <tr><td><strong>8단계</strong></td><td>+165 <span class="max-val">(+205)</span></td><td>+2040 <span class="max-val">(+2760)</span></td><td>+407 <span class="max-val">(+443)</span></td><td><span class="badge-wpn">무기</span> +40 | <span class="badge-arm">방어</span> HP+720</td><td><strong style="color:var(--gold);">1,217,890 G</strong></td></tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <div style="display:flex; flex-direction:column; flex:1; min-height:0;">
-      <div class="guide-section-title" style="border-left-color:var(--gold);">⚔️ 드롭 장비 단계 (일반 / 카오스)</div>
-      <div class="guide-card" style="flex:1;">
+    <div style="display:flex; flex-direction:column; flex:1; min-height:0; gap:6px;">
+      <div class="guide-section-title" style="border-left-color:var(--gold);">⚔️ 드롭 장비 단계 상세 가이드</div>
+      <div class="guide-card">
         <div class="guide-card-scroll">
           <table>
             <thead>
               <tr>
-                <th style="width:15%;">구분</th>
+                <th style="width:18%;">모드</th>
                 <th style="width:18%;">지역</th>
-                <th style="width:32%;">스테이지</th>
-                <th style="width:35%;">드롭되는 장비 단계</th>
+                <th style="width:34%;">스테이지 구간</th>
+                <th style="width:30%;">드롭 장비 단계</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td rowspan="9" style="font-weight:700; color:var(--exp); border-right:1px solid var(--border);">⚔️ 일반</td>
+                <td rowspan="9" style="font-weight:700; color:var(--exp); background:rgba(88,166,255,0.05);">일반 모드</td>
                 <td rowspan="3">1지역</td>
                 <td>1-1 ~ 1-6</td>
-                <td>1단계</td>
+                <td><span style="color:var(--text-bright); font-weight:600;">1단계</span> 장비</td>
               </tr>
               <tr>
                 <td>1-7 ~ 1-9</td>
-                <td>1 ~ 2단계</td>
+                <td><span style="color:var(--text-bright); font-weight:600;">1 ~ 2단계</span> 랜덤</td>
               </tr>
               <tr>
-                <td>1-10 <span class="badge-boss">보스</span></td>
-                <td><strong>2단계</strong> <span style="color:var(--green); font-size:10px;">(확정)</span></td>
+                <td>1-10 (보스)</td>
+                <td><strong style="color:var(--gold);">2단계 (확정 드롭)</strong></td>
               </tr>
-              <tr style="border-top:1px dashed var(--border);">
+
+              <tr>
                 <td rowspan="3">2지역</td>
                 <td>2-1 ~ 2-6</td>
-                <td>1 ~ 3단계</td>
+                <td><span style="color:var(--text-bright); font-weight:600;">1 ~ 3단계</span> 랜덤</td>
               </tr>
               <tr>
                 <td>2-7 ~ 2-9</td>
-                <td>1 ~ 4단계</td>
+                <td><span style="color:var(--text-bright); font-weight:600;">1 ~ 4단계</span> 랜덤</td>
               </tr>
               <tr>
-                <td>2-10 <span class="badge-boss">보스</span></td>
-                <td><strong>3단계</strong> <span style="color:var(--green); font-size:10px;">(확정)</span></td>
+                <td>2-10 (보스)</td>
+                <td><strong style="color:var(--gold);">3단계 (확정 드롭)</strong></td>
               </tr>
-              <tr style="border-top:1px dashed var(--border);">
+
+              <tr>
                 <td rowspan="3">3지역</td>
                 <td>3-1 ~ 3-6</td>
-                <td>1 ~ 5단계</td>
+                <td><span style="color:var(--text-bright); font-weight:600;">1 ~ 5단계</span> 랜덤</td>
               </tr>
               <tr>
                 <td>3-7 ~ 3-9</td>
-                <td>1 ~ 6단계</td>
+                <td><span style="color:var(--text-bright); font-weight:600;">1 ~ 6단계</span> 랜덤</td>
               </tr>
               <tr>
-                <td>3-10 <span class="badge-boss">보스</span></td>
-                <td><strong>4단계</strong> <span style="color:var(--green); font-size:10px;">(확정)</span></td>
+                <td>3-10 (보스)</td>
+                <td><strong style="color:var(--gold);">4단계 (확정 드롭)</strong></td>
               </tr>
 
-              <tr style="border-top:2px solid var(--border);">
-                <td rowspan="8" style="font-weight:700; color:var(--chaos); border-right:1px solid var(--border);">🔥 카오스</td>
-                <td rowspan="2">1지역</td>
-                <td>1-1 ~ 1-9</td>
-                <td>1 ~ 6단계</td>
+              <tr>
+                <td rowspan="9" style="font-weight:700; color:var(--chaos); background:rgba(188,140,255,0.05); border-top:2px solid var(--border);">카오스 모드</td>
+                <td rowspan="2" style="border-top:2px solid var(--border);">1지역</td>
+                <td style="border-top:2px solid var(--border);">1-1 ~ 1-9</td>
+                <td style="border-top:2px solid var(--border);"><span style="color:var(--text-bright); font-weight:600;">1 ~ 6단계</span> 랜덤</td>
               </tr>
               <tr>
-                <td>1-10 <span class="badge-boss">보스</span></td>
-                <td><strong>6단계</strong> <span style="color:var(--green); font-size:10px;">(확정)</span></td>
+                <td>1-10 (보스)</td>
+                <td><strong style="color:var(--gold);">6단계 (확정 드롭)</strong></td>
               </tr>
-              <tr style="border-top:1px dashed var(--border);">
-                <td rowspan="3">2지역</td>
-                <td>2-1 ~ 2-4</td>
-                <td>1 ~ 6단계</td>
+
+              <tr>
+                <td rowspan="3" style="border-top:2px solid var(--border);">2지역</td>
+                <td style="border-top:2px solid var(--border);">2-1 ~ 2-4</td>
+                <td style="border-top:2px solid var(--border);"><span style="color:var(--text-bright); font-weight:600;">1 ~ 6단계</span> 랜덤</td>
               </tr>
               <tr>
                 <td>2-5 ~ 2-9</td>
-                <td>1 ~ 7단계</td>
+                <td><span style="color:var(--text-bright); font-weight:600;">1 ~ 7단계</span> 랜덤</td>
               </tr>
               <tr>
-                <td>2-10 <span class="badge-boss">보스</span></td>
-                <td><strong>7단계</strong> <span style="color:var(--green); font-size:10px;">(확정)</span></td>
+                <td>2-10 (보스)</td>
+                <td><strong style="color:var(--gold);">7단계 (확정 드롭)</strong></td>
               </tr>
-              <tr style="border-top:1px dashed var(--border);">
-                <td rowspan="3">3지역</td>
-                <td>3-1 ~ 3-3</td>
-                <td>1 ~ 7단계</td>
+
+              <tr>
+                <td rowspan="3" style="border-top:2px solid var(--border);">3지역</td>
+                <td style="border-top:2px solid var(--border);">3-1 ~ 3-3</td>
+                <td style="border-top:2px solid var(--border);"><span style="color:var(--text-bright); font-weight:600;">1 ~ 7단계</span> 랜덤</td>
               </tr>
               <tr>
                 <td>3-4 ~ 3-9</td>
-                <td>1 ~ 8단계</td>
+                <td><span style="color:var(--text-bright); font-weight:600;">1 ~ 8단계</span> 랜덤</td>
               </tr>
               <tr>
-                <td>3-10 <span class="badge-boss">보스</span></td>
-                <td><strong>8단계</strong> <span style="color:var(--green); font-size:10px;">(확정)</span></td>
+                <td>3-10 (보스)</td>
+                <td><strong style="color:var(--gold);">8단계 (확정 드롭)</strong></td>
               </tr>
             </tbody>
           </table>
@@ -520,43 +424,43 @@
   </div>
 
   <div id="panelPotentialGuide" class="guide-panel">
-    <div style="display:flex; flex-direction:column; flex:1; min-height:0;">
+    <div style="display:flex; flex-direction:column; flex:1; min-height:0; gap:6px;">
       <div class="guide-section-title" style="border-left-color:var(--chaos);">✨ 등급별 잠재능력 수치</div>
-      <div class="guide-card" style="flex:1;">
+      <div class="guide-card">
         <div class="guide-card-scroll">
           <table>
             <thead>
               <tr>
-                <th>옵션 종류</th>
+                <th>옵션</th>
                 <th style="color:#58a6ff;">레어</th>
                 <th style="color:#bc8cff;">에픽</th>
                 <th style="color:#f1e05a;">유니크</th>
-                <th style="color:#3fb950;">레전드리</th>
+                <th style="color:#3fb950;">레전</th>
               </tr>
             </thead>
             <tbody>
-              <tr><td>최대 HP</td><td>+35 ~ +75</td><td>+90 ~ +170</td><td>+225 ~ +400</td><td>+420 ~ +735</td></tr>
-              <tr><td>방어력</td><td>+4 ~ +10</td><td>+10 ~ +20</td><td>+15 ~ +32</td><td>+20 ~ +40</td></tr>
-              <tr><td>공격력 / 마력</td><td>+2 ~ +5</td><td>+5 ~ +9</td><td>+11 ~ +19</td><td>+19 ~ +35</td></tr>
-              <tr><td>공 / 마 %</td><td>-</td><td>+1% ~ +2%</td><td>+2% ~ +4%</td><td>+3% ~ +6%</td></tr>
-              <tr><td>크리티컬 확률</td><td>+1% ~ +3%</td><td>+1% ~ +3%</td><td>+2% ~ +4%</td><td>+2% ~ +5%</td></tr>
+              <tr><td>최대 HP</td><td>+35~75</td><td>+90~170</td><td>+225~400</td><td>+420~735</td></tr>
+              <tr><td>방어력</td><td>+4~10</td><td>+10~20</td><td>+15~32</td><td>+20~40</td></tr>
+              <tr><td>공격/마력</td><td>+2~5</td><td>+5~9</td><td>+11~19</td><td>+19~35</td></tr>
+              <tr><td>공/마 %</td><td>-</td><td>+1~2%</td><td>+2~4%</td><td>+3~6%</td></tr>
+              <tr><td>크리티컬</td><td>+1~3%</td><td>+1~3%</td><td>+2~4%</td><td>+2~5%</td></tr>
               <tr><td>공격속도</td><td>-</td><td>-</td><td>+1단계</td><td>+1단계</td></tr>
-              <tr><td>쿨타임 감소</td><td>-</td><td>-</td><td>-2초</td><td>-2초</td></tr>
-              <tr><td>크리티컬 데미지</td><td>-</td><td>-</td><td>-</td><td>+8% ~ +12%</td></tr>
+              <tr><td>쿨타임감소</td><td>-</td><td>-</td><td>-2초</td><td>-2초</td></tr>
+              <tr><td>크리티컬 데미지</td><td>-</td><td>-</td><td>-</td><td>+8~12%</td></tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <div style="display:flex; flex-direction:column; flex:1; min-height:0;">
+    <div style="display:flex; flex-direction:column; flex:1; min-height:0; gap:6px;">
       <div class="guide-section-title" style="border-left-color:var(--exp);">🔮 장비 단계별 잠재능력</div>
-      <div class="guide-card" style="flex:1;">
+      <div class="guide-card">
         <div class="guide-card-scroll">
           <table>
             <thead>
               <tr>
-                <th>장비 단계</th>
+                <th>단계</th>
                 <th>착용 레벨</th>
                 <th>잠재 등급</th>
                 <th>옵션 수</th>
@@ -578,7 +482,7 @@
     </div>
   </div>
 
-  <footer>Designed by hoon | v1.3</footer>
+  <footer>Designed by hoon | v2.0 pc & mobile</footer>
 </div>
 
 <script>
@@ -591,12 +495,12 @@ const PANEL_TEMPLATE = (mode) => `
             <th>스테이지</th>
             <th>기본골드</th>
             <th>시간</th>
-            <th class="exp-col">획득 EXP(%)</th>
-            <th class="exp-col">초당 EXP</th>
-            <th class="exp-col">시간당 EXP</th>
-            <th class="gold-col">총 골드</th>
-            <th class="gold-col">초당 Gold</th>
-            <th class="gold-col">시간당 Gold</th>
+            <th class="exp-col">획득EXP(%)</th>
+            <th class="exp-col">초당EXP</th>
+            <th class="exp-col">시간당EXP</th>
+            <th class="gold-col">총골드</th>
+            <th class="gold-col">초당Gold</th>
+            <th class="gold-col">시간당Gold</th>
             <th></th>
           </tr>
         </thead>
@@ -606,8 +510,8 @@ const PANEL_TEMPLATE = (mode) => `
     <div class="table-footer">
       <button class="add-btn" id="addBtn-${mode}">+ 스테이지 추가</button>
       <div class="formula">
-        • 경험치: 초당 EXP = 획득EXP(%) ÷ 시간(초) | 시간당 EXP = 초당 EXP × 3600<br>
-        • 골드: 적용골드 = 기본골드 × (1 + 획득량%) | 총골드 = (적용골드 × 몬스터) + (적용골드 × 20 × 보스)
+        • 초당EXP = 획득EXP(%) ÷ 시간 | 시간당EXP = 초당EXP × 3600<br>
+        • 총골드 = (기본골드×(1+획득량%) × 몬스터수) + (보스보상)
       </div>
     </div>
   </div>
@@ -644,8 +548,8 @@ const PANEL_TEMPLATE = (mode) => `
       <div class="card-header-flex">
         <h2>효율 순위</h2>
         <div class="rank-toggle">
-          <div class="rank-tab active exp-rank" id="rtab-exp-${mode}">경험치 기준</div>
-          <div class="rank-tab gold-rank" id="rtab-gold-${mode}">골드 기준</div>
+          <div class="rank-tab active exp-rank" id="rtab-exp-${mode}">경험치</div>
+          <div class="rank-tab gold-rank" id="rtab-gold-${mode}">골드</div>
         </div>
       </div>
       <div class="chart-scroll" id="chart-${mode}"></div>
@@ -811,16 +715,10 @@ function renderSummaryAndChart(mode){
   
   if(validStages.length === 0){
     summaryDiv.innerHTML = `
-      <div class="summary-card exp">
-        <span class="summary-title">⚡ 최고 경험치 스테이지</span>
-        <span class="summary-value" style="color:var(--text-dim); font-size:10.5px;">시간 데이터 없음</span>
-      </div>
-      <div class="summary-card gold">
-        <span class="summary-title">💰 최고 골드 스테이지</span>
-        <span class="summary-value" style="color:var(--text-dim); font-size:10.5px;">시간 데이터 없음</span>
-      </div>
+      <div class="summary-card exp"><span class="summary-title">⚡ 최고 경험치 효율</span><span class="summary-value" style="color:var(--text-dim);">시간 데이터 없음</span></div>
+      <div class="summary-card gold"><span class="summary-title">💰 최고 골드 효율</span><span class="summary-value" style="color:var(--text-dim);">시간 데이터 없음</span></div>
     `;
-    document.getElementById(`chart-${mode}`).innerHTML = '<div style="color:var(--text-dim);font-size:10.5px;text-align:center;padding:10px 0;">시간이 입력된 스테이지가 없습니다.</div>';
+    document.getElementById(`chart-${mode}`).innerHTML = '<div style="color:var(--text-dim);font-size:10px;text-align:center;padding:10px 0;">시간이 입력된 스테이지가 없습니다.</div>';
     return;
   }
 
@@ -830,11 +728,11 @@ function renderSummaryAndChart(mode){
   summaryDiv.innerHTML = `
     <div class="summary-card exp">
       <span class="summary-title">⚡ 최고 경험치 효율</span>
-      <span class="summary-value">${bestExp.stage || '미지정'} <span style="color:var(--exp); font-size:10.5px;">(시간당 ${formatFloat(bestExp.calc.expPerHour)}%)</span></span>
+      <span class="summary-value">${bestExp.stage || '미지정'} <span style="color:var(--exp); font-size:10px;">(${formatFloat(bestExp.calc.expPerHour)}%/h)</span></span>
     </div>
     <div class="summary-card gold">
       <span class="summary-title">💰 최고 골드 효율</span>
-      <span class="summary-value">${bestGold.stage || '미지정'} <span style="color:var(--gold); font-size:10.5px;">(시간당 ${formatNum(bestGold.calc.gph)} G)</span></span>
+      <span class="summary-value">${bestGold.stage || '미지정'} <span style="color:var(--gold); font-size:10px;">(${formatNum(bestGold.calc.gph)} G/h)</span></span>
     </div>
   `;
 
@@ -1003,7 +901,6 @@ function exportCSV(mode){
   loadState(mode);
 });
 
-/* 탭 전환 이벤트 */
 document.getElementById('tabNormal').addEventListener('click', () => switchTab('normal'));
 document.getElementById('tabChaos').addEventListener('click', () => switchTab('chaos'));
 document.getElementById('tabEquipGuide').addEventListener('click', () => switchTab('equipGuide'));
