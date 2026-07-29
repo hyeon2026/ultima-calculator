@@ -1,4 +1,4 @@
-<!D<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -81,12 +81,12 @@
   .mode-tab.active[data-mode="potentialGuide"] { color: var(--chaos); border-color: var(--chaos); background: rgba(188, 140, 255, 0.15); }
 
   .panel { display: none; flex-direction: column; gap: 10px; }
-  .panel.active { display: grid; grid-template-columns: 1fr; gap: 10px; }
   
+  .panel.active { display: grid; grid-template-columns: 1fr; gap: 10px; }
   @media(min-width: 1024px) {
     html, body { height: 100vh; overflow: hidden; }
     .wrap { height: 100vh; overflow: hidden; }
-    .panel.active { display: grid; grid-template-columns: 1fr 340px; height: calc(100vh - 65px); min-height: 0; }
+    .panel.active { display: grid; grid-template-columns: 360px 1fr; height: calc(100vh - 65px); min-height: 0; }
   }
 
   .guide-panel {
@@ -104,7 +104,12 @@
     .guide-panel.active { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 65px); overflow: hidden; }
   }
 
-  .left-col {
+  .left-sidebar { display: flex; flex-direction: column; gap: 8px; }
+  @media(min-width: 1024px) {
+    .left-sidebar { height: 100%; min-height: 0; overflow-y: auto; padding-right: 4px; }
+  }
+
+  .right-main {
     display: flex;
     flex-direction: column;
     background: var(--panel);
@@ -115,7 +120,7 @@
     min-height: 400px;
   }
   @media(min-width: 1024px) {
-    .left-col { height: 100%; min-height: 0; overflow: hidden; }
+    .right-main { height: 100%; min-height: 0; overflow: hidden; }
   }
 
   .table-container {
@@ -141,27 +146,14 @@
   tbody td { padding: 5px 4px; text-align: center; border-bottom: 1px solid var(--border); }
 
   .guide-section-title {
-    font-size: 12.5px;
-    font-weight: 700;
-    color: var(--text-bright);
-    border-left: 3px solid var(--gold);
-    padding-left: 6px;
-    margin-bottom: 4px;
-    flex-shrink: 0;
+    font-size: 12.5px; font-weight: 700; color: var(--text-bright);
+    border-left: 3px solid var(--gold); padding-left: 6px; margin-bottom: 4px; flex-shrink: 0;
   }
   .guide-card {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 6px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    height: 300px;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    padding: 6px; display: flex; flex-direction: column; overflow: hidden; height: 300px;
   }
-  @media(min-width: 1024px) {
-    .guide-card { height: auto; flex: 1; min-height: 0; }
-  }
+  @media(min-width: 1024px) { .guide-card { height: auto; flex: 1; min-height: 0; } }
   .guide-card-scroll { flex: 1; overflow-y: auto; }
 
   .guide-panel table { font-size: 11px; }
@@ -196,18 +188,9 @@
   .add-btn:hover { border-color: var(--exp); background: rgba(88,166,255,0.12); color: var(--text-bright); }
   .formula { font-size: 9.5px; color: var(--text-dim); line-height: 1.3; }
 
-  .right-col { display: flex; flex-direction: column; gap: 8px; }
-  @media(min-width: 1024px) {
-    .right-col { height: 100%; min-height: 0; overflow: hidden; }
-  }
-
   .card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px;
-    flex-shrink: 0;
-    box-shadow: var(--shadow);
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+    padding: 10px; flex-shrink: 0; box-shadow: var(--shadow);
   }
 
   .input-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
@@ -227,20 +210,65 @@
   .save-note { font-size: 10.5px; color: var(--green); opacity: 0; transition: opacity .2s; font-weight: 500; text-align: center; margin-top: 2px; height: 14px; }
   .save-note.visible { opacity: 1; }
 
-  .best-summary { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+  /* 더욱 강화되어 골드와 균형을 맞춘 경험치 요약 카드 */
+  .best-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; flex-shrink: 0; }
   .summary-card {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; font-size: 11px;
-    display: flex; flex-direction: column; gap: 2px; box-shadow: var(--shadow);
+    background: linear-gradient(135deg, var(--panel), var(--panel2));
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   }
-  .summary-card.exp { border-left: 3px solid var(--exp); }
-  .summary-card.gold { border-left: 3px solid var(--gold); }
-  .summary-title { font-size: 9.5px; color: var(--text-dim); font-weight: 600; }
-  .summary-value { font-size: 11px; color: var(--text-bright); font-weight: 600; }
+  .summary-card.exp { 
+    border-left: 4px solid var(--exp); 
+    background: linear-gradient(135deg, rgba(31,107,235,0.22), var(--panel)); 
+  }
+  .summary-card.gold { 
+    border-left: 4px solid var(--gold); 
+    background: linear-gradient(135deg, rgba(212,167,44,0.18), var(--panel)); 
+  }
+  .summary-title { font-size: 10px; color: var(--text-bright); font-weight: 700; letter-spacing: -0.2px; }
+  .summary-body { display: flex; flex-direction: column; gap: 1px; }
+  .summary-stage { font-size: 11.5px; font-weight: 700; color: var(--text-bright); }
+  .summary-val { font-size: 13.5px; font-weight: 900; letter-spacing: -0.3px; }
+  .summary-card.exp .summary-val { color: #79b8ff; text-shadow: 0 0 8px rgba(88,166,255,0.4); }
+  .summary-card.gold .summary-val { color: var(--gold); text-shadow: 0 0 8px rgba(241,224,90,0.3); }
+
+  /* 비교 분석 카드 디자인 */
+  .compare-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: var(--shadow);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .compare-header { display: flex; justify-content: space-between; align-items: center; }
+  .compare-header h2 { font-size: 12px; font-weight: 600; margin: 0; color: var(--text-bright); }
+  .compare-selectors { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .compare-selectors select {
+    width: 100%; background: var(--panel2); border: 1px solid var(--border);
+    color: var(--text-bright); font-size: 10.5px; padding: 4px; border-radius: 5px; text-align: center; outline: none;
+  }
+  .compare-selectors select:focus { border-color: var(--exp); }
+  .compare-result {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    padding: 8px; font-size: 10.5px; display: flex; flex-direction: column; gap: 4px; line-height: 1.4;
+  }
+  .compare-line { display: flex; justify-content: space-between; align-items: center; }
+  .compare-label { color: var(--text-dim); font-weight: 600; }
+  .compare-val { font-weight: 700; color: var(--text-bright); }
 
   .chart-card {
     display: flex; flex-direction: column; background: var(--panel);
     border: 1px solid var(--border); border-radius: 10px; padding: 10px; box-shadow: var(--shadow);
-    height: 250px;
+    height: 220px;
   }
   @media(min-width: 1024px) {
     .chart-card { flex: 1; min-height: 0; height: auto; overflow: hidden; }
@@ -482,41 +510,12 @@
     </div>
   </div>
 
-  <footer>Designed by hoon | v2.0 pc & mobile</footer>
+  <footer>Designed by hoon | v3.3 PC & Mobile </footer>
 </div>
 
 <script>
 const PANEL_TEMPLATE = (mode) => `
-  <div class="left-col">
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>스테이지</th>
-            <th>기본골드</th>
-            <th>시간</th>
-            <th class="exp-col">획득EXP(%)</th>
-            <th class="exp-col">초당EXP</th>
-            <th class="exp-col">시간당EXP</th>
-            <th class="gold-col">총골드</th>
-            <th class="gold-col">초당Gold</th>
-            <th class="gold-col">시간당Gold</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="rows-${mode}"></tbody>
-      </table>
-    </div>
-    <div class="table-footer">
-      <button class="add-btn" id="addBtn-${mode}">+ 스테이지 추가</button>
-      <div class="formula">
-        • 초당EXP = 획득EXP(%) ÷ 시간 | 시간당EXP = 초당EXP × 3600<br>
-        • 총골드 = (기본골드×(1+획득량%) × 몬스터수) + (보스보상)
-      </div>
-    </div>
-  </div>
-
-  <div class="right-col">
+  <div class="left-sidebar">
     <div class="card">
       <div class="toprow">
         <div class="input-grid">
@@ -544,6 +543,19 @@ const PANEL_TEMPLATE = (mode) => `
 
     <div class="best-summary" id="bestSummary-${mode}"></div>
 
+    <div class="compare-card">
+      <div class="compare-header">
+        <h2>📈 스테이지 효율 비교</h2>
+      </div>
+      <div class="compare-selectors">
+        <select id="compA-${mode}"><option value="">A 스테이지</option></select>
+        <select id="compB-${mode}"><option value="">B 스테이지</option></select>
+      </div>
+      <div class="compare-result" id="compareResult-${mode}">
+        <span style="color:var(--text-dim); text-align:center;">비교할 두 스테이지를 선택하세요.</span>
+      </div>
+    </div>
+
     <div class="chart-card">
       <div class="card-header-flex">
         <h2>효율 순위</h2>
@@ -553,6 +565,35 @@ const PANEL_TEMPLATE = (mode) => `
         </div>
       </div>
       <div class="chart-scroll" id="chart-${mode}"></div>
+    </div>
+  </div>
+
+  <div class="right-main">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>스테이지</th>
+            <th>기본골드</th>
+            <th>시간</th>
+            <th class="exp-col">획득EXP(%)</th>
+            <th class="exp-col">초당EXP</th>
+            <th class="exp-col">시간당EXP</th>
+            <th class="gold-col">총골드</th>
+            <th class="gold-col">초당Gold</th>
+            <th class="gold-col">시간당Gold</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="rows-${mode}"></tbody>
+      </table>
+    </div>
+    <div class="table-footer">
+      <button class="add-btn" id="addBtn-${mode}">+ 스테이지 추가</button>
+      <div class="formula">
+        • 초당EXP = 획득EXP(%) ÷ 시간 | 시간당EXP = 초당EXP × 3600<br>
+        • 총골드 = (기본골드×(1+획득량%) × 몬스터수) + (보스보상)
+      </div>
     </div>
   </div>
 `;
@@ -679,12 +720,12 @@ function renderTable(mode){
       const idx = e.target.dataset.idx;
       state[mode].stages.splice(idx, 1);
       renderTable(mode);
-      renderSummaryAndChart(mode);
+      updateUIElements(mode);
       triggerAutoSave(mode);
     });
   });
 
-  renderSummaryAndChart(mode);
+  updateUIElements(mode);
 }
 
 function renderCalculationsOnly(mode){
@@ -703,7 +744,13 @@ function renderCalculationsOnly(mode){
     tds[8].textContent = formatNum(calc.gph);
   });
 
+  updateUIElements(mode);
+}
+
+function updateUIElements(mode){
   renderSummaryAndChart(mode);
+  updateCompareDropdowns(mode);
+  updateCompareResult(mode);
 }
 
 function renderSummaryAndChart(mode){
@@ -715,8 +762,8 @@ function renderSummaryAndChart(mode){
   
   if(validStages.length === 0){
     summaryDiv.innerHTML = `
-      <div class="summary-card exp"><span class="summary-title">⚡ 최고 경험치 효율</span><span class="summary-value" style="color:var(--text-dim);">시간 데이터 없음</span></div>
-      <div class="summary-card gold"><span class="summary-title">💰 최고 골드 효율</span><span class="summary-value" style="color:var(--text-dim);">시간 데이터 없음</span></div>
+      <div class="summary-card exp"><span class="summary-title">⚡ 최고 경험치 효율</span><div class="summary-body"><span class="summary-stage">-</span><span class="summary-val" style="font-size:11px; color:var(--text-dim); font-weight:normal;">데이터 없음</span></div></div>
+      <div class="summary-card gold"><span class="summary-title">💰 최고 골드 효율</span><div class="summary-body"><span class="summary-stage">-</span><span class="summary-val" style="font-size:11px; color:var(--text-dim); font-weight:normal;">데이터 없음</span></div></div>
     `;
     document.getElementById(`chart-${mode}`).innerHTML = '<div style="color:var(--text-dim);font-size:10px;text-align:center;padding:10px 0;">시간이 입력된 스테이지가 없습니다.</div>';
     return;
@@ -728,11 +775,17 @@ function renderSummaryAndChart(mode){
   summaryDiv.innerHTML = `
     <div class="summary-card exp">
       <span class="summary-title">⚡ 최고 경험치 효율</span>
-      <span class="summary-value">${bestExp.stage || '미지정'} <span style="color:var(--exp); font-size:10px;">(${formatFloat(bestExp.calc.expPerHour)}%/h)</span></span>
+      <div class="summary-body">
+        <span class="summary-stage">${bestExp.stage || '미지정'}</span>
+        <span class="summary-val">${formatFloat(bestExp.calc.expPerHour)}%/h</span>
+      </div>
     </div>
     <div class="summary-card gold">
       <span class="summary-title">💰 최고 골드 효율</span>
-      <span class="summary-value">${bestGold.stage || '미지정'} <span style="color:var(--gold); font-size:10px;">(${formatNum(bestGold.calc.gph)} G/h)</span></span>
+      <div class="summary-body">
+        <span class="summary-stage">${bestGold.stage || '미지정'}</span>
+        <span class="summary-val">${formatNum(bestGold.calc.gph)} G/h</span>
+      </div>
     </div>
   `;
 
@@ -762,6 +815,89 @@ function renderSummaryAndChart(mode){
     `;
     chartDiv.appendChild(row);
   });
+}
+
+function updateCompareDropdowns(mode){
+  const validStages = state[mode].stages
+    .map(s => ({ ...s, calc: computeRow(s, state[mode].rate, state[mode].monsterCount, state[mode].bossCount) }))
+    .filter(s => s.calc.seconds > 0);
+
+  const selA = document.getElementById(`compA-${mode}`);
+  const selB = document.getElementById(`compB-${mode}`);
+  if(!selA || !selB) return;
+
+  const valA = selA.value;
+  const valB = selB.value;
+
+  const optionsHTML = '<option value="">선택</option>' + validStages.map(s => `<option value="${s.stage}">${s.stage}</option>`).join('');
+  
+  selA.innerHTML = optionsHTML;
+  selB.innerHTML = optionsHTML;
+
+  if(selA.querySelector(`option[value="${valA}"]`)) selA.value = valA;
+  if(selB.querySelector(`option[value="${valB}"]`)) selB.value = valB;
+}
+
+function updateCompareResult(mode){
+  const selA = document.getElementById(`compA-${mode}`);
+  const selB = document.getElementById(`compB-${mode}`);
+  const resDiv = document.getElementById(`compareResult-${mode}`);
+  if(!selA || !selB || !resDiv) return;
+
+  const nameA = selA.value;
+  const nameB = selB.value;
+
+  if(!nameA || !nameB){
+    resDiv.innerHTML = '<span style="color:var(--text-dim); text-align:center;">비교할 두 스테이지를 선택하세요.</span>';
+    return;
+  }
+
+  const stagesWithCalc = state[mode].stages.map(s => ({ ...s, calc: computeRow(s, state[mode].rate, state[mode].monsterCount, state[mode].bossCount) }));
+  let stageA = stagesWithCalc.find(s => s.stage === nameA);
+  let stageB = stagesWithCalc.find(s => s.stage === nameB);
+
+  if(!stageA || !stageB){
+    resDiv.innerHTML = '<span style="color:var(--text-dim); text-align:center;">선택한 스테이지 데이터를 찾을 수 없습니다.</span>';
+    return;
+  }
+
+  // 항상 효율이 더 좋은 쪽을 A(기준)로 자동 정렬하여 비교
+  let subTextNote = '';
+  if(stageB.calc.expPerHour > stageA.calc.expPerHour || (stageB.calc.expPerHour === stageA.calc.expPerHour && stageB.calc.gph > stageA.calc.gph)){
+    const temp = stageA;
+    stageA = stageB;
+    stageB = temp;
+    subTextNote = `<div style="font-size:9.5px; color:var(--text-dim); text-align:right; margin-bottom:2px;">(💡 높은 효율 기준으로 자동 정렬됨)</div>`;
+  }
+
+  const diffExpH = stageA.calc.expPerHour - stageB.calc.expPerHour;
+  const diffExp24 = diffExpH * 24;
+  const diffGoldH = stageA.calc.gph - stageB.calc.gph;
+  const diffGold24 = diffGoldH * 24;
+
+  resDiv.innerHTML = `
+    ${subTextNote}
+    <div style="font-size:10px; font-weight:700; color:var(--text-bright); margin-bottom:2px; text-align:center;">
+      <span style="color:var(--exp);">${stageA.stage}</span> vs <span style="color:var(--text-dim);">${stageB.stage}</span>
+    </div>
+    <div class="compare-line">
+      <span class="compare-label">⚔️ 경험치 우위 (1시간)</span>
+      <span class="compare-val" style="color:var(--exp);">+${formatFloat(diffExpH)}%/h</span>
+    </div>
+    <div class="compare-line">
+      <span class="compare-label">📅 24시간(1일) 누적</span>
+      <span class="compare-val" style="color:var(--exp);">+${formatFloat(diffExp24)}% 이득</span>
+    </div>
+    <div style="height:1px; background:var(--border); margin:2px 0;"></div>
+    <div class="compare-line">
+      <span class="compare-label">💰 골드 우위 (1시간)</span>
+      <span class="compare-val" style="color:var(--gold);">+${formatNum(diffGoldH)} G</span>
+    </div>
+    <div class="compare-line">
+      <span class="compare-label">📅 24시간(1일) 누적</span>
+      <span class="compare-val" style="color:var(--gold);">+${formatNum(diffGold24)} G 이득</span>
+    </div>
+  `;
 }
 
 function triggerAutoSave(mode){
@@ -897,6 +1033,9 @@ function exportCSV(mode){
     goldTab.classList.remove('active');
     renderSummaryAndChart(mode);
   });
+
+  document.getElementById(`compA-${mode}`).addEventListener('change', () => updateCompareResult(mode));
+  document.getElementById(`compB-${mode}`).addEventListener('change', () => updateCompareResult(mode));
 
   loadState(mode);
 });
