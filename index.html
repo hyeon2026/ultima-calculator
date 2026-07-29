@@ -21,6 +21,9 @@
     --text-dim: #8b949e;
     --danger: #f85149;
     --chaos: #bc8cff;
+    --warrior: #f85149;
+    --archer: #3fb950;
+    --mage: #58a6ff;
     --shadow: 0 4px 10px rgba(0,0,0,0.2);
   }
   * { box-sizing: border-box; }
@@ -42,7 +45,7 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    max-width: 1400px;
+    max-width: 1450px;
     margin: 0 auto;
     padding: 10px;
     gap: 8px;
@@ -140,6 +143,9 @@
   }
   thead th.exp-col { color: var(--exp); }
   thead th.gold-col { color: var(--gold); }
+  thead th.war-col { color: var(--warrior); }
+  thead th.arc-col { color: var(--archer); }
+  thead th.mag-col { color: var(--mage); }
   
   tbody tr { transition: background .15s; }
   tbody tr:hover { background: rgba(255,255,255,0.03); }
@@ -165,15 +171,18 @@
   .max-val { color: var(--text-dim); font-size: 9.5px; }
 
   .stage-input, .time-input, .base-input, .exp-input {
-    width: 100%; min-width: 40px; background: var(--panel2); border: 1px solid var(--border);
-    border-radius: 4px; color: var(--text-bright); font-size: 11px; padding: 3px 2px; text-align: center;
+    width: 100%; min-width: 38px; background: var(--panel2); border: 1px solid var(--border);
+    border-radius: 4px; color: var(--text-bright); font-size: 10.5px; padding: 3px 2px; text-align: center;
   }
-  .stage-input { min-width: 48px; font-weight: 600; }
-  .exp-input { color: var(--exp); font-weight: 600; }
+  .stage-input { min-width: 44px; font-weight: 600; }
+  .exp-war { color: var(--warrior); font-weight: 600; }
+  .exp-arc { color: var(--archer); font-weight: 600; }
+  .exp-mag { color: var(--mage); font-weight: 600; }
+  
   .stage-input:focus, .time-input:focus, .base-input:focus, .exp-input:focus { outline: none; border-color: var(--exp); background: #262c36; }
   
   .gps { color: var(--gold); font-weight: 600; }
-  .exps { color: var(--exp); font-weight: 600; }
+  .exps { font-weight: 600; font-size: 10px; }
   .del-btn { background: none; border: none; color: var(--text-dim); font-size: 12px; cursor: pointer; padding: 0 4px; border-radius: 3px; }
   .del-btn:hover { color: var(--danger); background: rgba(248,81,73,0.1); }
 
@@ -210,32 +219,33 @@
   .save-note { font-size: 10.5px; color: var(--green); opacity: 0; transition: opacity .2s; font-weight: 500; text-align: center; margin-top: 2px; height: 14px; }
   .save-note.visible { opacity: 1; }
 
-  /* 더욱 강화되어 골드와 균형을 맞춘 경험치 요약 카드 */
-  .best-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; flex-shrink: 0; }
+  /* 직업별 요약 카드 영역 (3개 직업 + 골드) */
+  .best-summary { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; flex-shrink: 0; }
+  @media(min-width: 1300px) { .best-summary { grid-template-columns: repeat(4, 1fr); } }
+  
   .summary-card {
     background: linear-gradient(135deg, var(--panel), var(--panel2));
     border: 1px solid var(--border-strong);
     border-radius: 8px;
-    padding: 8px 10px;
+    padding: 7px 9px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 3px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   }
-  .summary-card.exp { 
-    border-left: 4px solid var(--exp); 
-    background: linear-gradient(135deg, rgba(31,107,235,0.22), var(--panel)); 
-  }
-  .summary-card.gold { 
-    border-left: 4px solid var(--gold); 
-    background: linear-gradient(135deg, rgba(212,167,44,0.18), var(--panel)); 
-  }
-  .summary-title { font-size: 10px; color: var(--text-bright); font-weight: 700; letter-spacing: -0.2px; }
+  .summary-card.war { border-left: 4px solid var(--warrior); background: linear-gradient(135deg, rgba(248,81,73,0.18), var(--panel)); }
+  .summary-card.arc { border-left: 4px solid var(--archer); background: linear-gradient(135deg, rgba(63,185,80,0.18), var(--panel)); }
+  .summary-card.mag { border-left: 4px solid var(--mage); background: linear-gradient(135deg, rgba(88,166,255,0.18), var(--panel)); }
+  .summary-card.gold { border-left: 4px solid var(--gold); background: linear-gradient(135deg, rgba(212,167,44,0.18), var(--panel)); }
+
+  .summary-title { font-size: 9.5px; color: var(--text-bright); font-weight: 700; letter-spacing: -0.2px; }
   .summary-body { display: flex; flex-direction: column; gap: 1px; }
-  .summary-stage { font-size: 11.5px; font-weight: 700; color: var(--text-bright); }
-  .summary-val { font-size: 13.5px; font-weight: 900; letter-spacing: -0.3px; }
-  .summary-card.exp .summary-val { color: #79b8ff; text-shadow: 0 0 8px rgba(88,166,255,0.4); }
-  .summary-card.gold .summary-val { color: var(--gold); text-shadow: 0 0 8px rgba(241,224,90,0.3); }
+  .summary-stage { font-size: 11px; font-weight: 700; color: var(--text-bright); }
+  .summary-val { font-size: 12.5px; font-weight: 900; letter-spacing: -0.3px; }
+  .summary-card.war .summary-val { color: #ffa198; }
+  .summary-card.arc .summary-val { color: #7ee787; }
+  .summary-card.mag .summary-val { color: #79b8ff; }
+  .summary-card.gold .summary-val { color: var(--gold); }
 
   /* 비교 분석 카드 디자인 */
   .compare-card {
@@ -268,7 +278,7 @@
   .chart-card {
     display: flex; flex-direction: column; background: var(--panel);
     border: 1px solid var(--border); border-radius: 10px; padding: 10px; box-shadow: var(--shadow);
-    height: 220px;
+    height: 230px;
   }
   @media(min-width: 1024px) {
     .chart-card { flex: 1; min-height: 0; height: auto; overflow: hidden; }
@@ -276,9 +286,11 @@
   .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-shrink: 0; }
   .card-header-flex h2 { font-size: 12px; font-weight: 600; margin: 0; color: var(--text-bright); }
   
-  .rank-toggle { display: flex; gap: 2px; background: var(--panel2); padding: 2px; border-radius: 5px; border: 1px solid var(--border); }
-  .rank-tab { padding: 3px 7px; font-size: 9.5px; border-radius: 4px; cursor: pointer; color: var(--text-dim); font-weight: 600; }
-  .rank-tab.active.exp-rank { background: var(--exp-dim); color: #fff; }
+  .rank-toggle { display: flex; gap: 2px; background: var(--panel2); padding: 2px; border-radius: 5px; border: 1px solid var(--border); flex-wrap: wrap; }
+  .rank-tab { padding: 3px 6px; font-size: 9px; border-radius: 4px; cursor: pointer; color: var(--text-dim); font-weight: 600; }
+  .rank-tab.active.war-rank { background: var(--warrior); color: #fff; }
+  .rank-tab.active.arc-rank { background: var(--archer); color: #fff; }
+  .rank-tab.active.mag-rank { background: var(--mage); color: #fff; }
   .rank-tab.active.gold-rank { background: var(--gold-dim); color: #fff; }
 
   .chart-scroll { flex: 1; overflow-y: auto; padding-right: 2px; }
@@ -287,7 +299,9 @@
   .chart-label { width: 44px; font-size: 10px; color: var(--text-bright); font-weight: 700; background: var(--panel2); border: 1px solid var(--border); border-radius: 4px; text-align: center; padding: 2px 0; }
   .chart-bar-bg { flex: 1; background: var(--panel2); border-radius: 4px; height: 18px; position: relative; overflow: hidden; }
   .chart-bar-fill { height: 100%; border-radius: 4px; transition: width .3s; }
-  .chart-bar-fill.exp-bar { background: linear-gradient(90deg, var(--exp-dim), var(--exp)); }
+  .chart-bar-fill.war-bar { background: linear-gradient(90deg, #d1242f, var(--warrior)); }
+  .chart-bar-fill.arc-bar { background: linear-gradient(90deg, #2ea043, var(--archer)); }
+  .chart-bar-fill.mag-bar { background: linear-gradient(90deg, var(--exp-dim), var(--mage)); }
   .chart-bar-fill.gold-bar { background: linear-gradient(90deg, var(--gold-dim), var(--gold)); }
   
   .chart-val-inside {
@@ -305,7 +319,7 @@
   <header>
     <div class="title-area">
       <h1>울티마 효율 & 가이드</h1>
-      <p class="sub">효율 계산 및 장비/잠재 정보</p>
+      <p class="sub">직업별(전사·궁수·마법사) 경험치 효율 비교/ 장비 & 잠재 가이드</p>
     </div>
     <div class="mode-tabs">
       <div class="mode-tab active" data-mode="normal" id="tabNormal">일반</div>
@@ -510,7 +524,7 @@
     </div>
   </div>
 
-  <footer>Designed by hoon | v3.3 PC & Mobile </footer>
+  <footer>Designed by hoon | v4.0 PC & Mobile + Multi EXP Comparison</footer>
 </div>
 
 <script>
@@ -560,7 +574,9 @@ const PANEL_TEMPLATE = (mode) => `
       <div class="card-header-flex">
         <h2>효율 순위</h2>
         <div class="rank-toggle">
-          <div class="rank-tab active exp-rank" id="rtab-exp-${mode}">경험치</div>
+          <div class="rank-tab active war-rank" id="rtab-war-${mode}">전사EXP</div>
+          <div class="rank-tab arc-rank" id="rtab-arc-${mode}">궁수EXP</div>
+          <div class="rank-tab mag-rank" id="rtab-mag-${mode}">마법사EXP</div>
           <div class="rank-tab gold-rank" id="rtab-gold-${mode}">골드</div>
         </div>
       </div>
@@ -576,9 +592,9 @@ const PANEL_TEMPLATE = (mode) => `
             <th>스테이지</th>
             <th>기본골드</th>
             <th>시간</th>
-            <th class="exp-col">획득EXP(%)</th>
-            <th class="exp-col">초당EXP</th>
-            <th class="exp-col">시간당EXP</th>
+            <th class="war-col">전사EXP(%)</th>
+            <th class="arc-col">궁수EXP(%)</th>
+            <th class="mag-col">마법사EXP(%)</th>
             <th class="gold-col">총골드</th>
             <th class="gold-col">초당Gold</th>
             <th class="gold-col">시간당Gold</th>
@@ -591,7 +607,7 @@ const PANEL_TEMPLATE = (mode) => `
     <div class="table-footer">
       <button class="add-btn" id="addBtn-${mode}">+ 스테이지 추가</button>
       <div class="formula">
-        • 초당EXP = 획득EXP(%) ÷ 시간 | 시간당EXP = 초당EXP × 3600<br>
+        • 직업별 시간당EXP = (직업EXP ÷ 시간) × 3600<br>
         • 총골드 = (기본골드×(1+획득량%) × 몬스터수) + (보스보상)
       </div>
     </div>
@@ -614,7 +630,7 @@ function buildDefaultStages(){
       if(area===1 && n===7) time='1:33';
       if(area===1 && n===8) time='2:18';
       if(area===1 && n===9) time='2:56';
-      stages.push({ stage:`${area}-${n}`, base, time, exp: '' });
+      stages.push({ stage:`${area}-${n}`, base, time, expWar: '', expArc: '', expMag: '' });
     }
   }
   return stages;
@@ -622,28 +638,28 @@ function buildDefaultStages(){
 
 const MODES = {
   normal: {
-    rateKey:'gold-calc-normal-rate-v3',
-    stagesKey:'gold-calc-normal-stages-v3',
-    countsKey:'gold-calc-normal-counts-v3',
+    rateKey:'gold-calc-normal-rate-v4',
+    stagesKey:'gold-calc-normal-stages-v4',
+    countsKey:'gold-calc-normal-counts-v4',
     defaultRate: 15,
     defaultMonsterCount: 60,
     defaultBossCount: 1,
     defaultStages: buildDefaultStages()
   },
   chaos: {
-    rateKey:'gold-calc-chaos-rate-v3',
-    stagesKey:'gold-calc-chaos-stages-v3',
-    countsKey:'gold-calc-chaos-counts-v3',
+    rateKey:'gold-calc-chaos-rate-v4',
+    stagesKey:'gold-calc-chaos-stages-v4',
+    countsKey:'gold-calc-chaos-counts-v4',
     defaultRate: 15,
     defaultMonsterCount: 60,
     defaultBossCount: 1,
-    defaultStages: buildDefaultStages().map(s => ({ stage:s.stage, base:0, time:'', exp:'' }))
+    defaultStages: buildDefaultStages().map(s => ({ stage:s.stage, base:0, time:'', expWar:'', expArc:'', expMag:'' }))
   }
 };
 
 const state = {
-  normal: { rate: MODES.normal.defaultRate, monsterCount: MODES.normal.defaultMonsterCount, bossCount: MODES.normal.defaultBossCount, stages: JSON.parse(JSON.stringify(MODES.normal.defaultStages)), rankMode: 'exp' },
-  chaos: { rate: MODES.chaos.defaultRate, monsterCount: MODES.chaos.defaultMonsterCount, bossCount: MODES.chaos.defaultBossCount, stages: JSON.parse(JSON.stringify(MODES.chaos.defaultStages)), rankMode: 'exp' }
+  normal: { rate: MODES.normal.defaultRate, monsterCount: MODES.normal.defaultMonsterCount, bossCount: MODES.normal.defaultBossCount, stages: JSON.parse(JSON.stringify(MODES.normal.defaultStages)), rankMode: 'war' },
+  chaos: { rate: MODES.chaos.defaultRate, monsterCount: MODES.chaos.defaultMonsterCount, bossCount: MODES.chaos.defaultBossCount, stages: JSON.parse(JSON.stringify(MODES.chaos.defaultStages)), rankMode: 'war' }
 };
 
 const saveTimers = {};
@@ -667,7 +683,6 @@ function formatFloat(n){ return (Math.round(n * 1000) / 1000).toLocaleString('ko
 
 function computeRow(row, rate, monsterCount, bossCount){
   const base = parseFloat(row.base) || 0;
-  const expVal = parseFloat(row.exp) || 0;
   const seconds = parseTime(row.time);
   const applied = base * (1 + rate/100);
   const mCount = (typeof monsterCount === 'number' && !isNaN(monsterCount)) ? monsterCount : 60;
@@ -677,10 +692,15 @@ function computeRow(row, rate, monsterCount, bossCount){
   const gps = seconds > 0 ? totalGold / seconds : 0;
   const gph = gps * 3600;
 
-  const expPerSec = seconds > 0 ? expVal / seconds : 0;
-  const expPerHour = expPerSec * 3600;
+  const expWarVal = parseFloat(row.expWar) || 0;
+  const expArcVal = parseFloat(row.expArc) || 0;
+  const expMagVal = parseFloat(row.expMag) || 0;
 
-  return { base, applied, seconds, totalGold, gps, gph, expVal, expPerSec, expPerHour };
+  const warH = seconds > 0 ? (expWarVal / seconds) * 3600 : 0;
+  const arcH = seconds > 0 ? (expArcVal / seconds) * 3600 : 0;
+  const magH = seconds > 0 ? (expMagVal / seconds) * 3600 : 0;
+
+  return { base, applied, seconds, totalGold, gps, gph, expWarVal, expArcVal, expMagVal, warH, arcH, magH };
 }
 
 function renderTable(mode){
@@ -688,18 +708,17 @@ function renderTable(mode){
   tbody.innerHTML = '';
   
   state[mode].stages.forEach((row, idx) => {
-    const calc = computeRow(row, state[mode].rate, state[mode].monsterCount, state[mode].bossCount);
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td><input class="stage-input" value="${row.stage||''}" data-idx="${idx}" data-field="stage"></td>
       <td><input class="base-input" type="text" inputmode="decimal" value="${row.base||''}" data-idx="${idx}" data-field="base"></td>
       <td><input class="time-input" value="${row.time||''}" placeholder="1:30" data-idx="${idx}" data-field="time"></td>
-      <td><input class="exp-input" type="text" inputmode="decimal" value="${row.exp||''}" placeholder="0.00" data-idx="${idx}" data-field="exp"></td>
-      <td class="exps">${calc.expPerSec > 0 ? formatFloat(calc.expPerSec) + '%' : '-'}</td>
-      <td class="exps">${calc.expPerHour > 0 ? formatFloat(calc.expPerHour) + '%' : '-'}</td>
-      <td class="gps">${formatNum(calc.totalGold)}</td>
-      <td class="gps">${formatNum(calc.gps)}</td>
-      <td class="gps">${formatNum(calc.gph)}</td>
+      <td><input class="exp-input exp-war" type="text" inputmode="decimal" value="${row.expWar||''}" placeholder="0.00" data-idx="${idx}" data-field="expWar"></td>
+      <td><input class="exp-input exp-arc" type="text" inputmode="decimal" value="${row.expArc||''}" placeholder="0.00" data-idx="${idx}" data-field="expArc"></td>
+      <td><input class="exp-input exp-mag" type="text" inputmode="decimal" value="${row.expMag||''}" placeholder="0.00" data-idx="${idx}" data-field="expMag"></td>
+      <td class="gps" id="gold-${mode}-${idx}">0</td>
+      <td class="gps">-</td>
+      <td class="gps" id="gph-${mode}-${idx}">0</td>
       <td><button class="del-btn" data-idx="${idx}">×</button></td>
     `;
     tbody.appendChild(tr);
@@ -725,7 +744,7 @@ function renderTable(mode){
     });
   });
 
-  updateUIElements(mode);
+  renderCalculationsOnly(mode);
 }
 
 function renderCalculationsOnly(mode){
@@ -737,8 +756,6 @@ function renderCalculationsOnly(mode){
     const calc = computeRow(row, state[mode].rate, state[mode].monsterCount, state[mode].bossCount);
     const tds = rows[idx].querySelectorAll('td');
     
-    tds[4].textContent = calc.expPerSec > 0 ? formatFloat(calc.expPerSec) + '%' : '-';
-    tds[5].textContent = calc.expPerHour > 0 ? formatFloat(calc.expPerHour) + '%' : '-';
     tds[6].textContent = formatNum(calc.totalGold);
     tds[7].textContent = formatNum(calc.gps);
     tds[8].textContent = formatNum(calc.gph);
@@ -762,22 +779,40 @@ function renderSummaryAndChart(mode){
   
   if(validStages.length === 0){
     summaryDiv.innerHTML = `
-      <div class="summary-card exp"><span class="summary-title">⚡ 최고 경험치 효율</span><div class="summary-body"><span class="summary-stage">-</span><span class="summary-val" style="font-size:11px; color:var(--text-dim); font-weight:normal;">데이터 없음</span></div></div>
-      <div class="summary-card gold"><span class="summary-title">💰 최고 골드 효율</span><div class="summary-body"><span class="summary-stage">-</span><span class="summary-val" style="font-size:11px; color:var(--text-dim); font-weight:normal;">데이터 없음</span></div></div>
+      <div class="summary-card war"><span class="summary-title">🛡️ 전사 최고EXP</span><div class="summary-body"><span class="summary-stage">-</span><span class="summary-val" style="font-size:10px; color:var(--text-dim); font-weight:normal;">데이터 없음</span></div></div>
+      <div class="summary-card arc"><span class="summary-title">🏹 궁수 최고EXP</span><div class="summary-body"><span class="summary-stage">-</span><span class="summary-val" style="font-size:10px; color:var(--text-dim); font-weight:normal;">데이터 없음</span></div></div>
+      <div class="summary-card mag"><span class="summary-title">🔮 마법사 최고EXP</span><div class="summary-body"><span class="summary-stage">-</span><span class="summary-val" style="font-size:10px; color:var(--text-dim); font-weight:normal;">데이터 없음</span></div></div>
+      <div class="summary-card gold"><span class="summary-title">💰 최고 골드 효율</span><div class="summary-body"><span class="summary-stage">-</span><span class="summary-val" style="font-size:10px; color:var(--text-dim); font-weight:normal;">데이터 없음</span></div></div>
     `;
     document.getElementById(`chart-${mode}`).innerHTML = '<div style="color:var(--text-dim);font-size:10px;text-align:center;padding:10px 0;">시간이 입력된 스테이지가 없습니다.</div>';
     return;
   }
 
-  const bestExp = [...validStages].sort((a,b) => b.calc.expPerHour - a.calc.expPerHour)[0];
+  const bestWar = [...validStages].sort((a,b) => b.calc.warH - a.calc.warH)[0];
+  const bestArc = [...validStages].sort((a,b) => b.calc.arcH - a.calc.arcH)[0];
+  const bestMag = [...validStages].sort((a,b) => b.calc.magH - a.calc.magH)[0];
   const bestGold = [...validStages].sort((a,b) => b.calc.gph - a.calc.gph)[0];
 
   summaryDiv.innerHTML = `
-    <div class="summary-card exp">
-      <span class="summary-title">⚡ 최고 경험치 효율</span>
+    <div class="summary-card war">
+      <span class="summary-title">🛡️ 전사 최고EXP</span>
       <div class="summary-body">
-        <span class="summary-stage">${bestExp.stage || '미지정'}</span>
-        <span class="summary-val">${formatFloat(bestExp.calc.expPerHour)}%/h</span>
+        <span class="summary-stage">${bestWar.stage || '미지정'}</span>
+        <span class="summary-val">${formatFloat(bestWar.calc.warH)}%/h</span>
+      </div>
+    </div>
+    <div class="summary-card arc">
+      <span class="summary-title">🏹 궁수 최고EXP</span>
+      <div class="summary-body">
+        <span class="summary-stage">${bestArc.stage || '미지정'}</span>
+        <span class="summary-val">${formatFloat(bestArc.calc.arcH)}%/h</span>
+      </div>
+    </div>
+    <div class="summary-card mag">
+      <span class="summary-title">🔮 마법사 최고EXP</span>
+      <div class="summary-body">
+        <span class="summary-stage">${bestMag.stage || '미지정'}</span>
+        <span class="summary-val">${formatFloat(bestMag.calc.magH)}%/h</span>
       </div>
     </div>
     <div class="summary-card gold">
@@ -789,18 +824,33 @@ function renderSummaryAndChart(mode){
     </div>
   `;
 
-  const isExpRank = state[mode].rankMode === 'exp';
-  const sorted = [...validStages].sort((a,b) => isExpRank ? b.calc.expPerHour - a.calc.expPerHour : b.calc.gph - a.calc.gph);
-  const maxVal = isExpRank ? sorted[0].calc.expPerHour : sorted[0].calc.gph;
+  const rankMode = state[mode].rankMode;
+  const sorted = [...validStages].sort((a,b) => {
+    if(rankMode === 'war') return b.calc.warH - a.calc.warH;
+    if(rankMode === 'arc') return b.calc.arcH - a.calc.arcH;
+    if(rankMode === 'mag') return b.calc.magH - a.calc.magH;
+    return b.calc.gph - a.calc.gph;
+  });
+
+  const maxVal = rankMode === 'war' ? sorted[0].calc.warH :
+                 rankMode === 'arc' ? sorted[0].calc.arcH :
+                 rankMode === 'mag' ? sorted[0].calc.magH : sorted[0].calc.gph;
 
   const chartDiv = document.getElementById(`chart-${mode}`);
   chartDiv.innerHTML = '';
 
   sorted.forEach((item, idx) => {
-    const val = isExpRank ? item.calc.expPerHour : item.calc.gph;
+    const val = rankMode === 'war' ? item.calc.warH :
+                rankMode === 'arc' ? item.calc.arcH :
+                rankMode === 'mag' ? item.calc.magH : item.calc.gph;
     const pct = maxVal > 0 ? Math.max((val / maxVal) * 100, 12) : 0;
-    const barClass = isExpRank ? 'exp-bar' : 'gold-bar';
-    const valText = isExpRank ? `${formatFloat(val)}%/h` : `${formatNum(val)} G/h`;
+    
+    let barClass = 'war-bar';
+    if(rankMode === 'arc') barClass = 'arc-bar';
+    else if(rankMode === 'mag') barClass = 'mag-bar';
+    else if(rankMode === 'gold') barClass = 'gold-bar';
+
+    const valText = rankMode === 'gold' ? `${formatNum(val)} G/h` : `${formatFloat(val)}%/h`;
 
     const row = document.createElement('div');
     row.className = 'chart-row';
@@ -861,19 +911,19 @@ function updateCompareResult(mode){
     return;
   }
 
-  // 항상 효율이 더 좋은 쪽을 A(기준)로 자동 정렬하여 비교
+  // 전사 효율 기준으로 자동 정렬 (기준 선택)
   let subTextNote = '';
-  if(stageB.calc.expPerHour > stageA.calc.expPerHour || (stageB.calc.expPerHour === stageA.calc.expPerHour && stageB.calc.gph > stageA.calc.gph)){
+  if(stageB.calc.warH > stageA.calc.warH || (stageB.calc.warH === stageA.calc.warH && stageB.calc.gph > stageA.calc.gph)){
     const temp = stageA;
     stageA = stageB;
     stageB = temp;
-    subTextNote = `<div style="font-size:9.5px; color:var(--text-dim); text-align:right; margin-bottom:2px;">(💡 높은 효율 기준으로 자동 정렬됨)</div>`;
+    subTextNote = `<div style="font-size:9.5px; color:var(--text-dim); text-align:right; margin-bottom:2px;">(💡 높은 전사 효율 기준으로 정렬됨)</div>`;
   }
 
-  const diffExpH = stageA.calc.expPerHour - stageB.calc.expPerHour;
-  const diffExp24 = diffExpH * 24;
+  const diffWarH = stageA.calc.warH - stageB.calc.warH;
+  const diffArcH = stageA.calc.arcH - stageB.calc.arcH;
+  const diffMagH = stageA.calc.magH - stageB.calc.magH;
   const diffGoldH = stageA.calc.gph - stageB.calc.gph;
-  const diffGold24 = diffGoldH * 24;
 
   resDiv.innerHTML = `
     ${subTextNote}
@@ -881,21 +931,21 @@ function updateCompareResult(mode){
       <span style="color:var(--exp);">${stageA.stage}</span> vs <span style="color:var(--text-dim);">${stageB.stage}</span>
     </div>
     <div class="compare-line">
-      <span class="compare-label">⚔️ 경험치 우위 (1시간)</span>
-      <span class="compare-val" style="color:var(--exp);">+${formatFloat(diffExpH)}%/h</span>
+      <span class="compare-label">🛡️ 전사 (시간당)</span>
+      <span class="compare-val" style="color:var(--warrior);">+${formatFloat(diffWarH)}%/h</span>
     </div>
     <div class="compare-line">
-      <span class="compare-label">📅 24시간(1일) 누적</span>
-      <span class="compare-val" style="color:var(--exp);">+${formatFloat(diffExp24)}% 이득</span>
+      <span class="compare-label">🏹 궁수 (시간당)</span>
+      <span class="compare-val" style="color:var(--archer);">+${formatFloat(diffArcH)}%/h</span>
+    </div>
+    <div class="compare-line">
+      <span class="compare-label">🔮 마법사 (시간당)</span>
+      <span class="compare-val" style="color:var(--mage);">+${formatFloat(diffMagH)}%/h</span>
     </div>
     <div style="height:1px; background:var(--border); margin:2px 0;"></div>
     <div class="compare-line">
-      <span class="compare-label">💰 골드 우위 (1시간)</span>
+      <span class="compare-label">💰 골드 (시간당)</span>
       <span class="compare-val" style="color:var(--gold);">+${formatNum(diffGoldH)} G</span>
-    </div>
-    <div class="compare-line">
-      <span class="compare-label">📅 24시간(1일) 누적</span>
-      <span class="compare-val" style="color:var(--gold);">+${formatNum(diffGold24)} G 이득</span>
     </div>
   `;
 }
@@ -929,7 +979,18 @@ function loadState(mode){
 
   if(savedRate !== null) state[mode].rate = parseFloat(savedRate) || 0;
   if(savedStages !== null){
-    try { state[mode].stages = JSON.parse(savedStages); } catch(e){}
+    try { 
+      const parsed = JSON.parse(savedStages);
+      // 구버전(단일 exp) 데이터 호환 처리
+      state[mode].stages = parsed.map(s => ({
+        stage: s.stage || '',
+        base: s.base || 0,
+        time: s.time || '',
+        expWar: s.expWar !== undefined ? s.expWar : (s.exp || ''),
+        expArc: s.expArc !== undefined ? s.expArc : '',
+        expMag: s.expMag !== undefined ? s.expMag : ''
+      }));
+    } catch(e){}
   }
   if(savedCounts !== null){
     try {
@@ -964,10 +1025,10 @@ function resetMode(mode){
 }
 
 function exportCSV(mode){
-  let csv = 'Stage,BaseGold,Time,ExpPct,ExpPerSec,ExpPerHour,TotalGold,GPS,GPH\n';
+  let csv = 'Stage,BaseGold,Time,ExpWar,ExpArc,ExpMag,TotalGold,GPS,GPH\n';
   state[mode].stages.forEach(s => {
     const c = computeRow(s, state[mode].rate, state[mode].monsterCount, state[mode].bossCount);
-    csv += `"${s.stage||''}","${s.base||0}","${s.time||''}","${s.exp||0}","${c.expPerSec.toFixed(4)}","${c.expPerHour.toFixed(4)}","${Math.round(c.totalGold)}","${Math.round(c.gps)}","${Math.round(c.gph)}"\n`;
+    csv += `"${s.stage||''}","${s.base||0}","${s.time||''}","${s.expWar||0}","${s.expArc||0}","${s.expMag||0}","${Math.round(c.totalGold)}","${Math.round(c.gps)}","${Math.round(c.gph)}"\n`;
   });
   const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
@@ -1003,7 +1064,7 @@ function exportCSV(mode){
         lastStage = `${parts[0]}-${parseInt(parts[1])+1}`;
       }
     }
-    state[mode].stages.push({ stage: lastStage, base: 0, time: '', exp: '' });
+    state[mode].stages.push({ stage: lastStage, base: 0, time: '', expWar: '', expArc: '', expMag: '' });
     renderTable(mode);
     triggerAutoSave(mode);
   });
@@ -1017,20 +1078,29 @@ function exportCSV(mode){
     if(confirm('이 모드의 모든 값을 초기 상태로 되돌릴까요?')) resetMode(mode);
   });
 
+  const warTab = document.getElementById(`rtab-war-${mode}`);
+  const arcTab = document.getElementById(`rtab-arc-${mode}`);
+  const magTab = document.getElementById(`rtab-mag-${mode}`);
   const goldTab = document.getElementById(`rtab-gold-${mode}`);
-  const expTab = document.getElementById(`rtab-exp-${mode}`);
   
-  goldTab.addEventListener('click', () => {
-    state[mode].rankMode = 'gold';
-    goldTab.classList.add('active');
-    expTab.classList.remove('active');
+  warTab.addEventListener('click', () => {
+    state[mode].rankMode = 'war';
+    warTab.classList.add('active'); arcTab.classList.remove('active'); magTab.classList.remove('active'); goldTab.classList.remove('active');
     renderSummaryAndChart(mode);
   });
-  
-  expTab.addEventListener('click', () => {
-    state[mode].rankMode = 'exp';
-    expTab.classList.add('active');
-    goldTab.classList.remove('active');
+  arcTab.addEventListener('click', () => {
+    state[mode].rankMode = 'arc';
+    arcTab.classList.add('active'); warTab.classList.remove('active'); magTab.classList.remove('active'); goldTab.classList.remove('active');
+    renderSummaryAndChart(mode);
+  });
+  magTab.addEventListener('click', () => {
+    state[mode].rankMode = 'mag';
+    magTab.classList.add('active'); warTab.classList.remove('active'); arcTab.classList.remove('active'); goldTab.classList.remove('active');
+    renderSummaryAndChart(mode);
+  });
+  goldTab.addEventListener('click', () => {
+    state[mode].rankMode = 'gold';
+    goldTab.classList.add('active'); warTab.classList.remove('active'); arcTab.classList.remove('active'); magTab.classList.remove('active');
     renderSummaryAndChart(mode);
   });
 
